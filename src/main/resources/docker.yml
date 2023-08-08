@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql-app: # 애플리케이션 환경에서 동작시킬 DB
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: qwer1234
+      MYSQL_DATABASE: novel_park
+      MYSQL_USER: common
+      MYSQL_PASSWORD: asdf1234
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+  mysql-test: # 테스트 환경에서 동작시킬 DB
+    image: mysql:latest
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: qwer1234
+      MYSQL_DATABASE: novel_park
+      MYSQL_USER: common
+      MYSQL_PASSWORD: asdf1234
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+# docker-compose 설치 필요
+# 이 파일의 경로로 이동해 docker-compose -f docker.yml up -d 로 실행
