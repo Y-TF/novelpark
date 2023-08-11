@@ -7,3 +7,6 @@
 
 ## GRADLE
 .gradle
+
+## YML
+application-secret.yml
