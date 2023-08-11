@@ -37,7 +37,9 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.526'
     testImplementation 'com.amazonaws:aws-java-sdk-s3:1.12.526'
 
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured:4.5.1'
 }
 
 tasks.named('test') {
