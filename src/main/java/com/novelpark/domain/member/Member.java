@@ -19,8 +19,6 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Member extends AuditingFields {
 
-	private static final String DEFAULT_PROFILE_URL = "https://novel-park-bucket.s3.ap-northeast-2.amazonaws.com/public/profiles/default_profile.png";
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
@@ -40,12 +38,12 @@ public class Member extends AuditingFields {
 	@Column(length = 512, nullable = false)
 	private String profileUrl;
 
-	public Member(String loginId, String password, String name, String email) {
+	public Member(String loginId, String password, String name, String email, String profileUrl) {
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;
 		this.email = email;
-		this.profileUrl = DEFAULT_PROFILE_URL;
+		this.profileUrl = profileUrl;
 	}
 
 	@Override
