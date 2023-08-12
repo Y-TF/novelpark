@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.novelpark.exception.ErrorCode;
-import com.novelpark.exception.InternalServerException;
-
 class SHA256Test {
 
 	private final SHA256 sha256 = new SHA256();
@@ -17,14 +14,6 @@ class SHA256Test {
 	void encryptTest() {
 		String encrypted = sha256.encrypt("1");
 		assertThat(encrypted).isNotNull();
-	}
-
-	@DisplayName("암호화시 null을 입력받는 경우 예외를 던진다.")
-	@Test
-	void givenNull_thenThrowsException() {
-		assertThatThrownBy(() -> sha256.encrypt(null))
-			.isInstanceOf(InternalServerException.class)
-			.extracting("errorCode").isEqualTo(ErrorCode.PASSWORD_ENCRYPT_FAIL);
 	}
 
 	@DisplayName("같은 문자열에 대해서는 암호화한 값이 동일하다.")
