@@ -36,7 +36,8 @@ public class S3Uploader {
 			bucket,
 			fileName,
 			imageFile.getInputStream(),
-			createObjectMetaData(imageFile)).withCannedAcl(CannedAccessControlList.PublicRead));
+			createObjectMetaData(imageFile))
+			.withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 
 	private ObjectMetadata createObjectMetaData(ImageFile imageFile) {
