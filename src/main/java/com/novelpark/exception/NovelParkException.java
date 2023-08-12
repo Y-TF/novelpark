@@ -11,4 +11,8 @@ public class NovelParkException extends RuntimeException {
 		super(message);
 		this.errorCode = errorCode;
 	}
+
+	public NovelParkException(ErrorCode errorCode) {
+		this(errorCode, errorCode.getMessage());
+	}
 }
