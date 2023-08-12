@@ -25,11 +25,12 @@ public class AuthService {
 	public void signup(SignupRequest request, MultipartFile image) {
 		String profileUrl = imageUploadService.uploadImage(image);
 
-		memberRepository.save(new Member(
-			request.getId(),
-			passwordEncoder.encrypt(request.getPassword()),
-			request.getName(),
-			request.getEmail(),
-			profileUrl));
+		memberRepository.save(Member.builder()
+			.loginId(request.getId())
+			.password(passwordEncoder.encrypt(request.getPassword()))
+			.name(request.getName())
+			.email(request.getEmail())
+			.profileUrl(profileUrl)
+			.build());
 	}
 }

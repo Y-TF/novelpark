@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import com.novelpark.domain.AuditingFields;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,6 +39,7 @@ public class Member extends AuditingFields {
 	@Column(length = 512, nullable = false)
 	private String profileUrl;
 
+	@Builder
 	public Member(String loginId, String password, String name, String email, String profileUrl) {
 		this.loginId = loginId;
 		this.password = password;
