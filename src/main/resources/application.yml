@@ -4,3 +4,6 @@ spring:
       - dev
     include:
       - secret
+
+url:
+  profile: https://novel-park-bucket.s3.ap-northeast-2.amazonaws.com/public/profiles/default_profile.png
