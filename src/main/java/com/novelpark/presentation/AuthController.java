@@ -1,5 +1,7 @@
 package com.novelpark.presentation;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class AuthController {
 		MediaType.APPLICATION_JSON_VALUE,
 		MediaType.MULTIPART_FORM_DATA_VALUE
 	})
-	public ResponseEntity<Void> signup(@RequestPart SignupRequest request, @RequestPart MultipartFile image) {
+	public ResponseEntity<Void> signup(@Valid @RequestPart SignupRequest request, @RequestPart MultipartFile image) {
 		authService.signup(request, image);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
