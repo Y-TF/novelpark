@@ -14,7 +14,7 @@ public class SignupRequest {
 
 	@NotBlank(message = "아이디는 빈 값이 들어올 수 없습니다.")
 	@Size(max = 45)
-	private String id;
+	private String loginId;
 
 	@NotBlank(message = "비밀번호는 빈 값이 들어올 수 없습니다.")
 	private String password;

@@ -58,14 +58,14 @@ public class ImageFile {
 				multipartFile.getSize()
 			);
 		} catch (IOException ex) {
-			throw new InternalServerException(ErrorCode.INVALID_IMAGE, "이미지 업로드에 실패했습니다.");
+			throw new InternalServerException(ErrorCode.INVALID_IMAGE);
 		}
 	}
 
 	private static void validateFileExtension(final MultipartFile multipartFile) {
 		String extension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
-		if (!VALIDATE_EXTENSION.matcher(extension).matches()) {
-			throw new BadRequestException(ErrorCode.INVALID_FILE_EXTENSION, "이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다.");
+		if (extension == null || !VALIDATE_EXTENSION.matcher(extension).matches()) {
+			throw new BadRequestException(ErrorCode.INVALID_FILE_EXTENSION);
 		}
 	}
 }
