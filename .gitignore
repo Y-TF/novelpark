@@ -1,0 +1,12 @@
+## IDEA
+.idea
+
+## BUILD
+/build
+/out
+
+## GRADLE
+.gradle
+
+## YML
+application-secret.yml
