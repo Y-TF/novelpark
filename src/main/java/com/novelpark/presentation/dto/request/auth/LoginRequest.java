@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LoginRequest {
-  @NotBlank
+  @NotBlank(message = "아이디는 빈 값이 들어올 수 없습니다.")
   private String loginId;
-  @NotBlank
+  @NotBlank(message = "비밀번호는 빈 값이 들어올 수 없습니다.")
   private String password;
-
 }

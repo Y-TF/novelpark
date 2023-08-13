@@ -34,10 +34,12 @@ public class AuthController {
 	public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginReq, HttpServletRequest servletReq, HttpServletResponse servletRes) {
 		final long memberSeq = authService.login(loginReq);
 
+		// 세션 생성
 		HttpSession session = servletReq.getSession(true);
 		session.setAttribute(AuthConstant.SESSION_ATTR_NAME, memberSeq);
 		session.setMaxInactiveInterval(AuthConstant.SESSION_TIMEOUT_IN_SECONDS);
 
+		// 쿠키 생성 및 응답 헤더에 추가
 		Cookie sessionCookie = new Cookie(AuthConstant.JSESSIONID, session.getId());
 		sessionCookie.setHttpOnly(true);
 		servletRes.addCookie(sessionCookie);

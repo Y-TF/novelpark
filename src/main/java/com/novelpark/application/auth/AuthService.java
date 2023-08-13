@@ -24,7 +24,7 @@ public class AuthService {
 	private final PasswordEncoder passwordEncoder;
 	private final MemberRepository memberRepository;
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public long login(LoginRequest request) {
 		Member member = memberRepository.findByLoginId(request.getLoginId())
 			.orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
