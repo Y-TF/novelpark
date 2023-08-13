@@ -11,17 +11,17 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageUploadService {
 
-	private final S3Uploader s3Uploader;
+  private final S3Uploader s3Uploader;
 
-	@Value("${s3.default.profile-url}")
-	private String defaultProfileUrl;
+  @Value("${s3.default.profile-url}")
+  private String defaultProfileUrl;
 
-	@Transactional
-	public String uploadImage(MultipartFile image) {
-		if (image == null || image.isEmpty()) {
-			return defaultProfileUrl;
-		}
-		ImageFile imageFile = ImageFile.from(image);
-		return s3Uploader.uploadImageFile(imageFile);
-	}
+  @Transactional
+  public String uploadImage(MultipartFile image) {
+    if (image == null || image.isEmpty()) {
+      return defaultProfileUrl;
+    }
+    ImageFile imageFile = ImageFile.from(image);
+    return s3Uploader.uploadImageFile(imageFile);
+  }
 }

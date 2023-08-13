@@ -17,37 +17,37 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class AuthService {
 
-	private final ImageUploadService imageUploadService;
+  private final ImageUploadService imageUploadService;
 
-	private final PasswordEncoder passwordEncoder;
-	private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final MemberRepository memberRepository;
 
-	@Transactional(readOnly = true)
-	public long login(LoginRequest request) {
-		Member member = memberRepository.findByLoginId(request.getLoginId())
-				.orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
+  @Transactional(readOnly = true)
+  public long login(LoginRequest request) {
+    Member member = memberRepository.findByLoginId(request.getLoginId())
+        .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
-		if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-			throw new BadRequestException(ErrorCode.INVALID_PASSWORD);
-		}
+    if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+      throw new BadRequestException(ErrorCode.INVALID_PASSWORD);
+    }
 
-		return member.getSeq();
-	}
+    return member.getSeq();
+  }
 
-	@Transactional
-	public void signup(SignupRequest request, MultipartFile image) {
-		if (memberRepository.existsByLoginId(request.getLoginId())) {
-			throw new BadRequestException(ErrorCode.DUPLICATED_LOGIN_ID);
-		}
+  @Transactional
+  public void signup(SignupRequest request, MultipartFile image) {
+    if (memberRepository.existsByLoginId(request.getLoginId())) {
+      throw new BadRequestException(ErrorCode.DUPLICATED_LOGIN_ID);
+    }
 
-		String profileUrl = imageUploadService.uploadImage(image);
+    String profileUrl = imageUploadService.uploadImage(image);
 
-		memberRepository.save(Member.builder()
-				.loginId(request.getLoginId())
-				.password(passwordEncoder.encrypt(request.getPassword()))
-				.name(request.getName())
-				.email(request.getEmail())
-				.profileUrl(profileUrl)
-				.build());
-	}
+    memberRepository.save(Member.builder()
+        .loginId(request.getLoginId())
+        .password(passwordEncoder.encrypt(request.getPassword()))
+        .name(request.getName())
+        .email(request.getEmail())
+        .profileUrl(profileUrl)
+        .build());
+  }
 }

@@ -29,84 +29,84 @@ import org.springframework.http.MediaType;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class AuthAcceptanceTest {
 
-	@Autowired
-	private ObjectMapper objectMapper;
+  @Autowired
+  private ObjectMapper objectMapper;
 
-	@Autowired
-	private DatabaseInitializer databaseInitializer;
+  @Autowired
+  private DatabaseInitializer databaseInitializer;
 
-	@MockBean
-	private S3Uploader s3Uploader;
+  @MockBean
+  private S3Uploader s3Uploader;
 
-	@AfterEach
-	void tearDown() {
-		databaseInitializer.truncateTables();
-	}
+  @AfterEach
+  void tearDown() {
+    databaseInitializer.truncateTables();
+  }
 
-	private File createStubFile() throws IOException {
-		File stubFile = File.createTempFile("test", ".png");
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(stubFile))) {
-			writer.write("content");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return stubFile;
-	}
+  private File createStubFile() throws IOException {
+    File stubFile = File.createTempFile("test", ".png");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(stubFile))) {
+      writer.write("content");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return stubFile;
+  }
 
-	@DisplayName("회원가입 할 때")
-	@Nested
-	class Signup {
+  @DisplayName("회원가입 할 때")
+  @Nested
+  class Signup {
 
-		@DisplayName("회원가입 정보와 프로필 이미지가 주어지면 회원가입에 성공한다.")
-		@Test
-		void givenSignupRequestAndProfileImage_whenSignup_thenSuccess() throws Exception {
-			// given
-			given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
+    @DisplayName("회원가입 정보와 프로필 이미지가 주어지면 회원가입에 성공한다.")
+    @Test
+    void givenSignupRequestAndProfileImage_whenSignup_thenSuccess() throws Exception {
+      // given
+      given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
 
-			File stubFile = createStubFile();
-			var request = requestWithSignupInfoAndProfileImage(stubFile);
+      File stubFile = createStubFile();
+      var request = requestWithSignupInfoAndProfileImage(stubFile);
 
-			// when
-			var response = signup(request);
+      // when
+      var response = signup(request);
 
-			// then
-			assertThat(response.statusCode()).isEqualTo(201);
-		}
+      // then
+      assertThat(response.statusCode()).isEqualTo(201);
+    }
 
-		@DisplayName("중복된 아이디가 주어지면 회원가입에 실패한다.")
-		@Test
-		void givenDuplicatedLoginId_whenSignup_thenFail() throws Exception {
-			// given
-			given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
+    @DisplayName("중복된 아이디가 주어지면 회원가입에 실패한다.")
+    @Test
+    void givenDuplicatedLoginId_whenSignup_thenFail() throws Exception {
+      // given
+      given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
 
-			File stubFile = createStubFile();
-			var request = requestWithSignupInfoAndProfileImage(stubFile);
-			signup(request);
+      File stubFile = createStubFile();
+      var request = requestWithSignupInfoAndProfileImage(stubFile);
+      signup(request);
 
-			// when
-			var response = signup(request);
+      // when
+      var response = signup(request);
 
-			// then
-			assertThat(response.statusCode()).isEqualTo(400);
-		}
+      // then
+      assertThat(response.statusCode()).isEqualTo(400);
+    }
 
-		private RequestSpecification requestWithSignupInfoAndProfileImage(File file) throws Exception {
-			return RestAssured
-					.given().log().all()
-					.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-					.multiPart("request",
-							objectMapper.writeValueAsString(
-									new SignupRequest("loginid", "asdf", "jyp", "123@123")),
-							MediaType.APPLICATION_JSON_VALUE)
-					.multiPart("image", file, MediaType.IMAGE_PNG_VALUE);
-		}
+    private RequestSpecification requestWithSignupInfoAndProfileImage(File file) throws Exception {
+      return RestAssured
+          .given().log().all()
+          .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+          .multiPart("request",
+              objectMapper.writeValueAsString(
+                  new SignupRequest("loginid", "asdf", "jyp", "123@123")),
+              MediaType.APPLICATION_JSON_VALUE)
+          .multiPart("image", file, MediaType.IMAGE_PNG_VALUE);
+    }
 
-		private ExtractableResponse<Response> signup(RequestSpecification request) {
-			return request
-					.when()
-					.post("/api/signup")
-					.then().log().all()
-					.extract();
-		}
-	}
+    private ExtractableResponse<Response> signup(RequestSpecification request) {
+      return request
+          .when()
+          .post("/api/signup")
+          .then().log().all()
+          .extract();
+    }
+  }
 }
