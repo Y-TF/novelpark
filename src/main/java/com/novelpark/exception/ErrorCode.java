@@ -7,6 +7,7 @@ public enum ErrorCode {
 
 	// AUTH
 	PASSWORD_ENCRYPT_FAIL("비밀번호 암호화 중 에러가 발생했습니다."),
+	DUPLICATED_LOGIN_ID("해당 아이디를 가진 회원이 이미 존재합니다."),
 	USER_NOT_FOUND("해당 유저를 찾을 수 없습니다."),
 	INVALID_PASSWORD("비밀번호가 일치하지 않습니다."),
 
