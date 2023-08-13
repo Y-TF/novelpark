@@ -14,8 +14,13 @@ public class SHA256 implements PasswordEncoder {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			return bytesToHex(md.digest(password.getBytes()));
 		} catch (NoSuchAlgorithmException e) {
-			throw new InternalServerException(ErrorCode.PASSWORD_ENCRYPT_FAIL, "비밀번호 암호화 중 에러가 발생했습니다.");
+			throw new InternalServerException(ErrorCode.PASSWORD_ENCRYPT_FAIL);
 		}
+	}
+
+	@Override
+	public boolean matches(String enteredPassword, String encryptedPassword) {
+		return encrypt(enteredPassword).equals(encryptedPassword);
 	}
 
 	private String bytesToHex(byte[] bytes) {

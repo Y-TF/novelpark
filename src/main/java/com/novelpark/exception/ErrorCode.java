@@ -6,11 +6,13 @@ import lombok.Getter;
 public enum ErrorCode {
 
 	// AUTH
-	PASSWORD_ENCRYPT_FAIL("비밀번호 암호화에 실패"),
+	PASSWORD_ENCRYPT_FAIL("비밀번호 암호화 중 에러가 발생했습니다."),
+	USER_NOT_FOUND("해당 유저를 찾을 수 없습니다."),
+	INVALID_PASSWORD("비밀번호가 일치하지 않습니다."),
 
 	// IMAGE
-	INVALID_IMAGE("이미지 업로드 실패"),
-	INVALID_FILE_EXTENSION("유효하지 않은 파일 확장자");
+	INVALID_IMAGE("이미지 업로드에 실패했습니다."),
+	INVALID_FILE_EXTENSION("이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다.");
 
 	private String message;
 
