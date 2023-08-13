@@ -29,58 +29,59 @@ import io.restassured.specification.RequestSpecification;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class AuthAcceptanceTest {
 
-	@Autowired
-	private ObjectMapper objectMapper;
+  @Autowired
+  private ObjectMapper objectMapper;
 
-	@MockBean
-	private S3Uploader s3Uploader;
+  @MockBean
+  private S3Uploader s3Uploader;
 
-	@DisplayName("회원가입 할 때")
-	@Nested
-	class Signup {
+  private File createStubFile() throws IOException {
+    File stubFile = File.createTempFile("test", ".png");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(stubFile))) {
+      writer.write("content");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return stubFile;
+  }
 
-		@DisplayName("회원가입 정보와 프로필 이미지가 주어지면 회원가입에 성공한다.")
-		@Test
-		void givenSignupRequestAndProfileImage_whenSignup_thenSuccess() throws Exception {
-			// given
-			given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
+  @DisplayName("회원가입 할 때")
+  @Nested
+  class Signup {
 
-			File stubFile = createStubFile();
-			var request = requestWithSignupInfoAndProfileImage(stubFile);
+    @DisplayName("회원가입 정보와 프로필 이미지가 주어지면 회원가입에 성공한다.")
+    @Test
+    void givenSignupRequestAndProfileImage_whenSignup_thenSuccess() throws Exception {
+      // given
+      given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
 
-			// when
-			var response = signup(request);
+      File stubFile = createStubFile();
+      var request = requestWithSignupInfoAndProfileImage(stubFile);
 
-			// then
-			assertThat(response.statusCode()).isEqualTo(201);
-		}
+      // when
+      var response = signup(request);
 
-		private RequestSpecification requestWithSignupInfoAndProfileImage(File file) throws Exception {
-			return RestAssured
-				.given().log().all()
-				.contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-				.multiPart("request",
-					objectMapper.writeValueAsString(new SignupRequest("loginid", "asdf", "jyp", "123@123")),
-					MediaType.APPLICATION_JSON_VALUE)
-				.multiPart("image", file, MediaType.IMAGE_PNG_VALUE);
-		}
+      // then
+      assertThat(response.statusCode()).isEqualTo(201);
+    }
 
-		private ExtractableResponse<Response> signup(RequestSpecification request) {
-			return request
-				.when()
-				.post("/api/signup")
-				.then().log().all()
-				.extract();
-		}
-	}
+    private RequestSpecification requestWithSignupInfoAndProfileImage(File file) throws Exception {
+      return RestAssured
+          .given().log().all()
+          .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+          .multiPart("request",
+              objectMapper.writeValueAsString(
+                  new SignupRequest("loginid", "asdf", "jyp", "123@123")),
+              MediaType.APPLICATION_JSON_VALUE)
+          .multiPart("image", file, MediaType.IMAGE_PNG_VALUE);
+    }
 
-	private File createStubFile() throws IOException {
-		File stubFile = File.createTempFile("test", ".png");
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(stubFile))) {
-			writer.write("content");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return stubFile;
-	}
+    private ExtractableResponse<Response> signup(RequestSpecification request) {
+      return request
+          .when()
+          .post("/api/signup")
+          .then().log().all()
+          .extract();
+    }
+  }
 }

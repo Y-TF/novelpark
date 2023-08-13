@@ -5,14 +5,14 @@ import lombok.Getter;
 @Getter
 public class NovelParkException extends RuntimeException {
 
-	private final ErrorCode errorCode;
+  private final ErrorCode errorCode;
 
-	public NovelParkException(ErrorCode errorCode, String message) {
-		super(message);
-		this.errorCode = errorCode;
-	}
+  public NovelParkException(ErrorCode errorCode, String message) {
+    super(message);
+    this.errorCode = errorCode;
+  }
 
-	public NovelParkException(ErrorCode errorCode) {
-		this(errorCode, errorCode.getMessage());
-	}
+  public NovelParkException(ErrorCode errorCode) {
+    this(errorCode, errorCode.getMessage());
+  }
 }
