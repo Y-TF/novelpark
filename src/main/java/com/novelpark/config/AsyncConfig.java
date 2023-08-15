@@ -13,7 +13,7 @@ public class AsyncConfig {
 
   @Bean(name = "mailThreadExecutor")
   public ThreadPoolExecutor mailExecutor() {
-    return (ThreadPoolExecutor) Executors.newFixedThreadPool(3,
+    return (ThreadPoolExecutor) Executors.newFixedThreadPool(2,
         new CustomizableThreadFactory("mail-thread-group"));
   }
 }
