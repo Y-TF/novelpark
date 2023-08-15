@@ -1,10 +1,12 @@
 package com.novelpark.application.auth;
 
 import com.novelpark.application.image.ImageUploadService;
+import com.novelpark.application.mail.MailService;
 import com.novelpark.domain.member.Member;
 import com.novelpark.domain.member.MemberRepository;
 import com.novelpark.exception.BadRequestException;
 import com.novelpark.exception.ErrorCode;
+import com.novelpark.exception.NotFoundException;
 import com.novelpark.infrastructure.hash.PasswordEncoder;
 import com.novelpark.presentation.dto.request.auth.LoginRequest;
 import com.novelpark.presentation.dto.request.auth.SignupRequest;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AuthService {
 
   private final ImageUploadService imageUploadService;
+  private final MailService mailService;
 
   private final PasswordEncoder passwordEncoder;
   private final MemberRepository memberRepository;
@@ -49,5 +52,16 @@ public class AuthService {
         .email(request.getEmail())
         .profileUrl(profileUrl)
         .build());
+  }
+
+  @Transactional(readOnly = true)
+  public void findLoginId(final String name, final String email) {
+    String loginId = memberRepository.findLoginIdByEmailAndName(email, name)
+        .orElseThrow(() -> new NotFoundException(
+            ErrorCode.USER_NOT_FOUND,
+            String.format("%s 이메일을 가진 사용자가 존재하지 않습니다.", email)
+        ));
+
+    mailService.sendFindLoginFormEmail(loginId, email);
   }
 }
