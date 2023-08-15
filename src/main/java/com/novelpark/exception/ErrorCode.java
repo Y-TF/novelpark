@@ -13,7 +13,10 @@ public enum ErrorCode {
 
   // IMAGE
   INVALID_IMAGE("이미지 업로드에 실패했습니다."),
-  INVALID_FILE_EXTENSION("이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다.");
+  INVALID_FILE_EXTENSION("이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다."),
+
+  // MAIL
+  MAIL_SEND_FAIL("메일 전송에 실패했습니다.");
 
   private final String message;
 
