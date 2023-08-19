@@ -124,7 +124,7 @@ public class AuthAcceptanceTest {
     void givenNameAndEmail_whenFindLoginId_thenSuccess() throws Exception {
       // given
       given(s3Uploader.uploadImageFile(any(ImageFile.class))).willReturn("image resource url");
-      willDoNothing().given(mailService).sendFindLoginFormEmail(anyString(), anyString());
+      willDoNothing().given(mailService).sendFindLoginIdMail(anyString(), anyString());
 
       // 회원가입
       RestAssured

@@ -62,6 +62,6 @@ public class AuthService {
             String.format("%s 이메일을 가진 사용자가 존재하지 않습니다.", email)
         ));
 
-    mailService.sendFindLoginFormEmail(loginId, email);
+    mailService.sendFindLoginIdMail(loginId, email);
   }
 }

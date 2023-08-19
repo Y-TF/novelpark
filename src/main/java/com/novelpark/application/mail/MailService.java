@@ -20,7 +20,7 @@ public class MailService {
   private final JavaMailSender mailSender;
 
   @Async("mailThreadExecutor")
-  public void sendFindLoginFormEmail(final String loginId, final String receiverEmail) {
+  public void sendFindLoginIdMail(final String loginId, final String receiverEmail) {
     Context context = new Context();
     context.setVariable("head", "Novel Park 아이디 찾가");
     context.setVariable("body", String.format("귀하의 아이디는 %s 입니다.", loginId));
