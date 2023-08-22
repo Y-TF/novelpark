@@ -39,3 +39,17 @@ cloud:
 s3:
   default:
     profile-url: https://novel-park-bucket.s3.ap-northeast-2.amazonaws.com/public/profiles/default_profile.png
+
+oauth:
+  naver:
+    client-id: clientId
+    client-secret: clientSecret
+    oauth-api-url: https://nid.naver.com/oauth2.0
+    oauth-resource-url: https://openapi.naver.com/v1/nid
+    redirect-url: redirect-url
+  kakao:
+    client-id: clientId
+    client-secret: clientSecret
+    oauth-api-url: https://kauth.kakao.com/oauth
+    oauth-resource-url: https://kapi.kakao.com/v2/user
+    redirect-url: redirect-url
