@@ -4,6 +4,7 @@ import com.novelpark.application.image.ImageUploadService;
 import com.novelpark.application.mail.MailService;
 import com.novelpark.domain.member.Member;
 import com.novelpark.domain.member.MemberRepository;
+import com.novelpark.domain.member.oauth.OAuthProvider;
 import com.novelpark.exception.BadRequestException;
 import com.novelpark.exception.ErrorCode;
 import com.novelpark.exception.NotFoundException;
@@ -42,6 +43,8 @@ public class AuthService {
     if (memberRepository.existsByLoginId(request.getLoginId())) {
       throw new BadRequestException(ErrorCode.DUPLICATED_LOGIN_ID);
     }
+    memberRepository.findByEmail(request.getEmail())
+        .ifPresent(member -> OAuthProvider.validateOAuthProvider(null, member));
 
     String profileUrl = imageUploadService.uploadImage(image);
 

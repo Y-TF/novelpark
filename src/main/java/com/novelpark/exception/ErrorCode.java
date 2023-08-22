@@ -11,6 +11,12 @@ public enum ErrorCode {
   USER_NOT_FOUND("해당 유저를 찾을 수 없습니다."),
   INVALID_PASSWORD("비밀번호가 일치하지 않습니다."),
 
+  // OAUTH
+  OAUTH_PROVIDER_NOT_FOUND("해당 OAuth 제공자가 존재하지 않습니다."),
+  INVALID_STATE_TOKEN("상태 토큰이 일치하지 않습니다."),
+  OAUTH_FAIL_REQUEST_TOKEN("토큰 발급에 실패했습니다."),
+  NOT_MATCH_PROVIDER(""),
+
   // IMAGE
   INVALID_IMAGE("이미지 업로드에 실패했습니다."),
   INVALID_FILE_EXTENSION("이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다."),
