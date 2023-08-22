@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="kr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Novel Park 아이디 찾기</title>
+</head>
+<body>
+<table
+        align="center"
+        cellpadding="0"
+        cellspacing="0"
+        style="
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        "
+>
+    <tr>
+        <td align="center">
+            <h1 class="title"><span th:text="${head}"></span></h1>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" style="padding: 60px 0 240px 0">
+            <h3 class="title"><span th:text="${body}"></span></h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table
+                    bgcolor="#fafafa"
+                    width="100%"
+                    style="width: 100%; padding-left: 20px"
+            >
+                <tr>
+                    <td>
+                        <p>Novel park</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>© Novel park all rights reserved</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
