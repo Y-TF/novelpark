@@ -15,7 +15,7 @@ public enum ErrorCode {
   OAUTH_PROVIDER_NOT_FOUND("해당 OAuth 제공자가 존재하지 않습니다."),
   INVALID_STATE_TOKEN("상태 토큰이 일치하지 않습니다."),
   OAUTH_FAIL_REQUEST_TOKEN("토큰 발급에 실패했습니다."),
-  NOT_MATCH_PROVIDER(""),
+  NOT_MATCH_PROVIDER("해당 서비스의 로그인 기능은 제공하지 않습니다."),
 
   // IMAGE
   INVALID_IMAGE("이미지 업로드에 실패했습니다."),
