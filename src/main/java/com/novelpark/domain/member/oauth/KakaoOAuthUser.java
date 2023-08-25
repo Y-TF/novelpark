@@ -3,11 +3,11 @@ package com.novelpark.domain.member.oauth;
 import java.util.Collections;
 import java.util.Map;
 
-public class KakaoUser implements OAuthUser {
+public class KakaoOAuthUser implements OAuthUser {
 
   private final Map<String, Object> userInfo;
 
-  public KakaoUser(Map<String, Object> userInfo) {
+  public KakaoOAuthUser(Map<String, Object> userInfo) {
     this.userInfo = Collections.unmodifiableMap(userInfo);
   }
 

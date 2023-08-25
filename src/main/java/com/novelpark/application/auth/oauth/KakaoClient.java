@@ -2,7 +2,7 @@ package com.novelpark.application.auth.oauth;
 
 import com.novelpark.config.properties.OauthProperties;
 import com.novelpark.config.properties.OauthProperties.Kakao;
-import com.novelpark.domain.member.oauth.KakaoUser;
+import com.novelpark.domain.member.oauth.KakaoOAuthUser;
 import com.novelpark.domain.member.oauth.OAuthUser;
 import com.novelpark.exception.ErrorCode;
 import com.novelpark.exception.InternalServerException;
@@ -74,7 +74,7 @@ public class KakaoClient implements OAuthClient {
     }
   }
 
-  private KakaoUser requestUserResource(final String token) {
+  private KakaoOAuthUser requestUserResource(final String token) {
     String url = UriComponentsBuilder.fromHttpUrl(resourceServerUrl + "/me")
         .queryParam("property_keys",
             "[\"kakao_account.profile\", \"kakao_account.email\", \"kakao_account.name\"]")
@@ -88,6 +88,6 @@ public class KakaoClient implements OAuthClient {
     HttpEntity<Void> request = new HttpEntity<>(null, httpHeaders);
 
     Map<String, Object> response = restTemplate.postForObject(url, request, Map.class);
-    return new KakaoUser(response);
+    return new KakaoOAuthUser(response);
   }
 }

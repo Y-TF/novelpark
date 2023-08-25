@@ -2,7 +2,7 @@ package com.novelpark.application.auth.oauth;
 
 import com.novelpark.config.properties.OauthProperties;
 import com.novelpark.config.properties.OauthProperties.Naver;
-import com.novelpark.domain.member.oauth.NaverUser;
+import com.novelpark.domain.member.oauth.NaverOAuthUser;
 import com.novelpark.domain.member.oauth.OAuthUser;
 import com.novelpark.exception.ErrorCode;
 import com.novelpark.exception.InternalServerException;
@@ -68,6 +68,6 @@ public class NaverClient implements OAuthClient {
 
     Map<String, Object> response = restTemplate.postForObject(resourceServerUrl + "/me", request,
         Map.class);
-    return new NaverUser(response);
+    return new NaverOAuthUser(response);
   }
 }

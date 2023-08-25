@@ -55,7 +55,7 @@ public enum OAuthProvider {
   public static void validateOAuthProvider(OAuthProvider provider, Member member) {
     String exceptionMessage;
     if (member.getOAuthProvider() == null) {
-      exceptionMessage = String.format("해당 이메일은 %s로 회원가입된 이력이 있습니다.", "아이디/비밀번호");
+      exceptionMessage = "해당 이메일은 아이디/비밀번호로 회원가입된 이력이 있습니다.";
     } else {
       exceptionMessage =
           String.format("해당 이메일은 %s로 회원가입된 이력이 있습니다.", member.getOAuthProvider().name());
