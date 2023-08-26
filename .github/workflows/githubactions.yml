@@ -24,7 +24,7 @@ jobs:
 
       # docker image 빌드
       - name: Build docker image
-        run: docker build -t 23yong/novel-park
+        run: docker build -t 23yong/novel-park .
 
       # docker hub 로그인
       - name: Login docker hub
