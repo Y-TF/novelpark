@@ -1,6 +1,8 @@
 package com.novelpark.presentation.support;
 
 import com.novelpark.application.constant.AuthConstant;
+import com.novelpark.exception.BadRequestException;
+import com.novelpark.exception.ErrorCode;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,5 +28,13 @@ public final class SessionUtil {
     Cookie sessionCookie = new Cookie(AuthConstant.JSESSIONID, session.getId());
     sessionCookie.setHttpOnly(true);
     response.addCookie(sessionCookie);
+  }
+
+  public static long getMemberSeq(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session == null) {
+      throw new BadRequestException(ErrorCode.NO_SESSION);
+    }
+    return (long) session.getAttribute(AuthConstant.SESSION_ATTR_NAME);
   }
 }
