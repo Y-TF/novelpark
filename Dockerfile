@@ -5,4 +5,4 @@ FROM adoptopenjdk/openjdk11
 COPY ./build/libs/novelpark-0.0.1-SNAPSHOT.jar app.jar
 
 # always do command
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
