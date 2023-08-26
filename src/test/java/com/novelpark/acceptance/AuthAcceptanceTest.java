@@ -131,7 +131,7 @@ public class AuthAcceptanceTest {
           .given()
           .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
           .multiPart("request", objectMapper.writeValueAsString(
-                  new SignupRequest("loginid", "asdf", "jyp", "23Yong@novelpark.com")),
+                  new SignupRequest("loginid", "asdf", "ParkJeongYong", "23Yong@novelpark.com")),
               MediaType.APPLICATION_JSON_VALUE)
           .multiPart("image", createStubFile(), MediaType.IMAGE_PNG_VALUE)
           .when().post("/api/signup")
