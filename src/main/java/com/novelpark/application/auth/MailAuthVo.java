@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class MailAuthDto {
+public class MailAuthVo {
+
   private String authCode;
   private LocalDateTime expireDt;
 
-  public MailAuthDto(String authCode) {
+  public MailAuthVo(String authCode) {
     this.authCode = authCode;
     this.expireDt = LocalDateTime.now().plusMinutes(30);
   }

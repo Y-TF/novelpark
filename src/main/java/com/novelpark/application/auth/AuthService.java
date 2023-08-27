@@ -93,6 +93,5 @@ public class AuthService {
 
     mailAuthStorage.checkCode(memberSeq, request.getCode());
     member.changePassword(passwordEncoder.encrypt(request.getPassword()));
-    memberRepository.save(member);
   }
 }

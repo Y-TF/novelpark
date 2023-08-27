@@ -1,6 +1,7 @@
 package com.novelpark.presentation;
 
 import com.novelpark.application.auth.AuthService;
+import com.novelpark.application.constant.AuthConstant;
 import com.novelpark.presentation.dto.request.auth.LoginRequest;
 import com.novelpark.presentation.dto.request.auth.PasswordResetRequest;
 import com.novelpark.presentation.dto.request.auth.SignupRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
@@ -42,6 +44,12 @@ public class AuthController {
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("/logout")
+  public ResponseEntity<Void> logout(HttpServletRequest servletReq) {
+    servletReq.getSession().invalidate();
+    return ResponseEntity.noContent().build();
+  }
+
   @PostMapping(value = "/signup", consumes = {
       MediaType.APPLICATION_JSON_VALUE,
       MediaType.MULTIPART_FORM_DATA_VALUE
@@ -62,18 +70,18 @@ public class AuthController {
 
   //비밀번호 찾기 인증메일 발송
   @GetMapping("/password/reset/mail")
-  public ResponseEntity<Void> sendPasswordResetMail(HttpServletRequest servletReq) {
-    long memberSeq = SessionUtil.getMemberSeq(servletReq);
+  public ResponseEntity<Void> sendPasswordResetMail(
+      @SessionAttribute(AuthConstant.SESSION_ATTR_NAME) long memberSeq) {
     authService.sendPasswordResetMail(memberSeq);
     return ResponseEntity.ok().build();
   }
 
   //비밀번호 변경
-  @PutMapping("/password/reset")
+  @PutMapping("/password")
   public ResponseEntity<Void> resetPassword(
-      HttpServletRequest servletReq,
+      @SessionAttribute(AuthConstant.SESSION_ATTR_NAME) long memberSeq,
       @Valid @RequestBody PasswordResetRequest req) {
-    authService.resetPassword(SessionUtil.getMemberSeq(servletReq), req);
+    authService.resetPassword(memberSeq, req);
     return ResponseEntity.ok().build();
   }
 }

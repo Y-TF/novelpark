@@ -29,12 +29,4 @@ public final class SessionUtil {
     sessionCookie.setHttpOnly(true);
     response.addCookie(sessionCookie);
   }
-
-  public static long getMemberSeq(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-    if (session == null) {
-      throw new BadRequestException(ErrorCode.NO_SESSION);
-    }
-    return (long) session.getAttribute(AuthConstant.SESSION_ATTR_NAME);
-  }
 }
