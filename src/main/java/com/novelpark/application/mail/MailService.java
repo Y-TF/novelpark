@@ -29,6 +29,16 @@ public class MailService {
     sendMail("[Novel Park] 귀하의 아이디 찾기에 대한 메일입니다.", message, receiverEmail);
   }
 
+  @Async("mailThreadExecutor")
+  public void sendPasswordResetMail(final String code, final String receiverEmail) {
+    Context context = new Context();
+    context.setVariable("head", "Novel Park 비밀번호 변경 인증 코드");
+    context.setVariable("body", String.format("%s를 화면에 입력해주세요", code));
+
+    String message = templateEngine.process("email.html", context);
+    sendMail("[Novel Park] 비밀번호 변경 인증 코드 발송", message, receiverEmail);
+  }
+
   private void sendMail(final String subject, final String htmlText, final String receiverEmail) {
     try {
       MimeMessage mail = mailSender.createMimeMessage();

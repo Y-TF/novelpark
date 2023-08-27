@@ -1,6 +1,8 @@
 package com.novelpark.presentation.support;
 
 import com.novelpark.application.constant.AuthConstant;
+import com.novelpark.exception.BadRequestException;
+import com.novelpark.exception.ErrorCode;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

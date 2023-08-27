@@ -10,7 +10,9 @@ import com.novelpark.exception.ErrorCode;
 import com.novelpark.exception.NotFoundException;
 import com.novelpark.infrastructure.hash.PasswordEncoder;
 import com.novelpark.presentation.dto.request.auth.LoginRequest;
+import com.novelpark.presentation.dto.request.auth.PasswordResetRequest;
 import com.novelpark.presentation.dto.request.auth.SignupRequest;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ public class AuthService {
 
   private final PasswordEncoder passwordEncoder;
   private final MemberRepository memberRepository;
+  private final MailAuthStorage mailAuthStorage;
 
   @Transactional(readOnly = true)
   public long login(LoginRequest request) {
@@ -66,5 +69,29 @@ public class AuthService {
         ));
 
     mailService.sendFindLoginIdMail(loginId, email);
+  }
+
+  @Transactional(readOnly = true)
+  public void sendPasswordResetMail(final long memberSeq) {
+    Member member = memberRepository.findById(memberSeq)
+        .orElseThrow(() -> new NotFoundException(
+            ErrorCode.USER_NOT_FOUND)
+        );
+
+    //UUID 앞 6자리를 잘라서 인증코드로 사용
+    String code = UUID.randomUUID().toString().substring(0, 8);
+    mailAuthStorage.save(memberSeq, code);
+    mailService.sendPasswordResetMail(code, member.getEmail());
+  }
+
+  @Transactional
+  public void resetPassword(final long memberSeq, PasswordResetRequest request) {
+    Member member = memberRepository.findById(memberSeq)
+        .orElseThrow(() -> new NotFoundException(
+            ErrorCode.USER_NOT_FOUND
+        ));
+
+    mailAuthStorage.checkCode(memberSeq, request.getCode());
+    member.changePassword(passwordEncoder.encrypt(request.getPassword()));
   }
 }
