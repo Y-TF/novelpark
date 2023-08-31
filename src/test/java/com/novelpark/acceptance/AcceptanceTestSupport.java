@@ -1,6 +1,7 @@
 package com.novelpark.acceptance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.novelpark.SupportRepository;
 import com.novelpark.application.image.S3Uploader;
 import com.novelpark.application.mail.MailService;
 import java.io.File;
@@ -13,6 +14,8 @@ public abstract class AcceptanceTestSupport {
 
   @Autowired
   protected ObjectMapper objectMapper;
+  @Autowired
+  protected SupportRepository supportRepository;
 
   @MockBean
   protected S3Uploader s3Uploader;
