@@ -6,57 +6,19 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.novelpark.DatabaseInitializer;
-import com.novelpark.application.image.S3Uploader;
-import com.novelpark.application.mail.MailService;
 import com.novelpark.domain.image.ImageFile;
 import com.novelpark.presentation.dto.request.auth.SignupRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class AuthAcceptanceTest {
-
-  @Autowired
-  private ObjectMapper objectMapper;
-
-  @Autowired
-  private DatabaseInitializer databaseInitializer;
-
-  @MockBean
-  private S3Uploader s3Uploader;
-  @MockBean
-  private MailService mailService;
-
-  @AfterEach
-  void tearDown() {
-    databaseInitializer.truncateTables();
-  }
-
-  private File createStubFile() throws IOException {
-    File stubFile = File.createTempFile("test", ".png");
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(stubFile))) {
-      writer.write("content");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return stubFile;
-  }
+public class AuthAcceptanceTest extends AcceptanceTestSupport {
 
   @DisplayName("회원가입 할 때")
   @Nested
