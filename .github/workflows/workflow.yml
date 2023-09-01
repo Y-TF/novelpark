@@ -1,0 +1,48 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  backend-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # SOURCE 단계 - 저장소 Checkout
+      - name: Checkout-source code
+        uses: actions/checkout@v3
+        with:
+          token: ${{secrets.GH_TOKEN}}
+          submodules: true
+
+      # Gradle 실행권한 부여
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
+      # Spring boot application 빌드
+      - name: Build with gradle
+        run: ./gradlew clean build -x test
+
+      # GHCR(github container registry) 로그인
+      - name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{secrets.GH_USER}}
+          password: ${{secrets.GH_TOKEN}}
+
+      # Build & Push to GHCR
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        id: docker_build
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{secrets.GH_USER}}/novel-park:0.0
