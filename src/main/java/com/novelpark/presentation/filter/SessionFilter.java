@@ -16,7 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class SessionFilter extends OncePerRequestFilter {
 
   private final AntPathMatcher pathMatcher = new AntPathMatcher();
-  private final List<String> excludeUrlPatterns = List.of("/api/login/**", "/api/signup");
+  private final List<String> excludeUrlPatterns =
+      List.of("/api/login/**", "/api/signup", "/api/id", "/api/password/reset/**");
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) {
