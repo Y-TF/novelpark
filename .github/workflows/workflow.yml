@@ -46,3 +46,17 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{secrets.GH_USER}}/novel-park:0.0
+
+      # Connect to WAS & Execute Application
+      - name: Connect to WAS & Execute Application
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.WAS_HOST }}
+          username: ${{ secrets.WAS_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.WAS_SSH_PORT }}
+          script: |
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
+            docker pull ghcr.io/${{secrets.GH_USER}}/novel-park:0.0
+            docker run -d -p 8080:8080 --name novel-park ghcr.io/${{secrets.GH_USER}}/novel-park:0.0
