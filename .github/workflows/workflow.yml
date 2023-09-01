@@ -56,6 +56,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.WAS_SSH_PORT }}
           script: |
+            echo ${{secrets.GH_TOKEN}} >> TOKEN.txt
+            cat TOKEN.txt | docker login https://ghcr.io -u ${{secrets.GH_USER}} --password-stdin
             docker stop $(docker ps -a -q) 
             docker rm $(docker ps -a -q) 
             docker pull ghcr.io/${{secrets.GH_USER}}/novel-park:0.0
