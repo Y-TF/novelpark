@@ -56,7 +56,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.WAS_SSH_PORT }}
           source: "docker-compose-deploy.yml, nginx.conf"
-          target: "/home/ubuntu/ec2-user"
+          target: "/home/ubuntu"
       
       # Connect to WAS & Execute Application
       - name: Connect to WAS & Execute Application
