@@ -13,6 +13,7 @@ public enum ErrorCode {
   NO_SESSION("세션이 존재하지 않습니다."),
   MAIL_AUTH_EXPIRED("인증 코드가 만료되었습니다."),
   WRONG_MAIL_AUTH("잘못된 인증 코드입니다."),
+  UNAUTHORIZED("인증되지 않은 사용자입니다."),
 
   // OAUTH
   OAUTH_PROVIDER_NOT_FOUND("해당 OAuth 제공자가 존재하지 않습니다."),
