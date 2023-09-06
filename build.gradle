@@ -50,3 +50,16 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+/** Git Submodules start **/
+processResources.dependsOn('copySecurity')
+
+tasks.register('copySecurity', Copy) {
+    description = 'Copy submodules to project'
+
+    from('./src/main/resources/security') {
+        include('*.yml')
+    }
+    into('src/main/resources')
+}
+/** Git Submodules end **/
