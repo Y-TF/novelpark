@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    // RESTDocs
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com'
@@ -15,6 +17,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    // RESTDocs
+    asciidoctorExt
 }
 
 repositories {
@@ -40,15 +44,15 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.526'
     testImplementation 'com.amazonaws:aws-java-sdk-s3:1.12.526'
 
+    // RESTDocs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:4.5.1'
     testImplementation 'com.squareup.okhttp3:okhttp:4.0.1'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.1'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }
 
 /** Git Submodules start **/
@@ -63,3 +67,32 @@ tasks.register('copySecurity', Copy) {
     into('src/main/resources')
 }
 /** Git Submodules end **/
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+/** RestDocs Start **/
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+    baseDirFollowsSourceFile()
+}
+
+bootJar {
+    dependsOn asciidoctor
+
+    from("${asciidoctor.outputDir}") {
+        into 'src/main/resources/static/docs'
+    }
+}
+/** RestDocs End **/
