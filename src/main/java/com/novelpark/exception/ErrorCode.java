@@ -8,7 +8,6 @@ public enum ErrorCode {
   // AUTH
   PASSWORD_ENCRYPT_FAIL("비밀번호 암호화 중 에러가 발생했습니다."),
   DUPLICATED_LOGIN_ID("해당 아이디를 가진 회원이 이미 존재합니다."),
-  USER_NOT_FOUND("해당 유저를 찾을 수 없습니다."),
   INVALID_PASSWORD("비밀번호가 일치하지 않습니다."),
   NO_SESSION("세션이 존재하지 않습니다."),
   MAIL_AUTH_EXPIRED("인증 코드가 만료되었습니다."),
@@ -26,7 +25,11 @@ public enum ErrorCode {
   INVALID_FILE_EXTENSION("이미지 파일의 확장자는 png, jpg, jpeg, gif만 가능합니다."),
 
   // MAIL
-  MAIL_SEND_FAIL("메일 전송에 실패했습니다.");
+  MAIL_SEND_FAIL("메일 전송에 실패했습니다."),
+
+  // COMMON
+  USER_NOT_FOUND("해당 유저를 찾을 수 없습니다."),
+  NOVEL_NOT_FOUND("해당 소설을 찾을 수 없습니다.");
 
   private final String message;
 
