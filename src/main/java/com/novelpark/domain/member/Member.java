@@ -44,8 +44,10 @@ public class Member extends AuditingFields {
   private OAuthProvider OAuthProvider;
 
   @Builder
-  public Member(String loginId, String password, String name, String email, String profileUrl,
+  public Member(Long seq, String loginId, String password, String name, String email,
+      String profileUrl,
       OAuthProvider oAuthProvider) {
+    this.seq = seq;
     this.loginId = loginId;
     this.password = password;
     this.name = name;

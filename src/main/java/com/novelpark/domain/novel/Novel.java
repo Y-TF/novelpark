@@ -24,7 +24,7 @@ public class Novel extends AuditingFields {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long seq;
 
   @Column(length = 100, nullable = false)
   private String title;
@@ -41,7 +41,8 @@ public class Novel extends AuditingFields {
   private Integer recommend;
 
   @Builder
-  public Novel(String title, String coverImageUrl) {
+  public Novel(Long seq, String title, String coverImageUrl) {
+    this.seq = seq;
     this.title = title;
     this.coverImageUrl = coverImageUrl;
   }
@@ -55,11 +56,11 @@ public class Novel extends AuditingFields {
       return false;
     }
     Novel novel = (Novel) o;
-    return Objects.equals(id, novel.id);
+    return Objects.equals(seq, novel.seq);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(seq);
   }
 }

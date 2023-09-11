@@ -44,9 +44,11 @@ public class DatabaseInitializer {
 
   @Transactional
   public void truncateTables() {
+    entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
     for (String tableName : tableNames) {
       truncateTable(tableName);
     }
+    entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
   }
 
   private void truncateTable(final String tableName) {
